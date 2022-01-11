@@ -1,2 +1,2 @@
-print("test 123456")
+print("test ABC")
 
