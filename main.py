@@ -29,20 +29,23 @@ laser_list = []
 play = True
 
 
-# laser_list = [[121,780],[171,780]]
-# i=1
-# l=[171,10]
-# l[0] = 171
-# l[1] = 10
+myfont = pygame.font.SysFont('Comic Sans MS', 30)
+textsurface = myfont.render('Score:', True, (255, 255, 255))
+screen.blit(textsurface,(10,20))
 
+def is_laser_hit(laser_pos):
+  return abs(laser_pos[0]-circle_x) <50 and abs(laser_pos[1]-circle_y) <50 
 
 # prints all the laser on the screen
 def print_lasers():
   for i in range(len(laser_list)):
-    l = laser_list[i]
-    screen.blit(laser_image,(l[0],l[1]))
-    laser_list[i] = [l[0],l[1]-30]
+    laser = laser_list[i]
+    screen.blit(laser_image,(laser[0],laser[1]))
+    laser_list[i] = [laser[0],laser[1]-30]
+    if is_laser_hit(laser):
+      print("hit")
 
+  # remove lazer that our outside of the window
   if len(laser_list) > 0 and laser_list[0][1] < 0:
     laser_list.remove(laser_list[0])
 
@@ -63,7 +66,9 @@ while play:
         laser_list.append([ship_x+21,ship_y])
 
   screen.blit(ship_image,(ship_x,ship_y))
-  pygame.draw.circle(screen,(255,255,255),(circle_x , circle_y),10)
+  textsurface = myfont.render('Score:', True, (255, 255, 255))
+  screen.blit(textsurface,(10,20))
+  pygame.draw.circle(screen,(255,255,255),(circle_x , circle_y),20)
   print_lasers()
 
   circle_x +=circle_x_step
